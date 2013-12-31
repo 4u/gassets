@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+var argv = require('optimist')
+  .usage('Creates js files from gcin files.\nUsage: $0 -n [nsPrefix] -d [gcinDir] -o [outputDir] [-p [lang:poFile]]')
+  .describe('help', 'Shows this help')
+  .describe('i', 'Input files or directories. Can be multiple')
+  .demand('i')
+  .describe('o', 'Output file')
+  .demand('o')
+  .argv;
+
+if (argv.help || !argv.i || !argv.o) {
+  optimist.showHelp();
+  process.exit(0);
+}
+
+var inputs = argv.i instanceof Array ? argv.i : [argv.i];
+var GAssets = require('../index');
+var assets = new GAssets(inputs);
+assets.findPaths(function(err, paths) {
+  if (err) throw err;
+  assets.save(argv.o, paths, function(err) {
+    if (err) {
+      throw err;
+    } else {
+      console.log('The file %s was saved!', argv.o);
+    }
+  });
+});
