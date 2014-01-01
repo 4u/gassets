@@ -18,7 +18,7 @@ gassets.DEV_MODE = goog.DEBUG;
  */
 gassets.path = function(path) {
   if (gassets.DEV_MODE) {
-    return gassets.PATH + '/' + path;
+    return gassets.PATH + path;
   } else if (goog.isDef(goog.global.GASSETS)) {
     return goog.global.GASSETS[path];
   }
